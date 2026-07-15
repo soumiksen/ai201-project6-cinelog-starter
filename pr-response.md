@@ -14,9 +14,9 @@
 **How I verified:** Ran `pytest tests/test_watchlist.py -v` — all 3 new tests passed. Then ran the full suite with `pytest tests/ -v` — all 7 tests (4 existing + 3 new) passed with no regressions.
 
 ## Comment 4 – Default visibility
-**My position:**
-**Reasoning:**
-**Tradeoff acknowledged:**
+**My position:** Watchlist entries should default to private (`public=False`), not public. Implemented by flipping `WatchlistEntry.public`'s column default in `models.py`, with a test (`test_add_to_watchlist_defaults_to_private`) asserting the default.
+**Reasoning:** A watchlist reveals *intent* — what a user is curious about before they've committed to it — which is a more sensitive signal than a collection (a retrospective record of films already watched). This follows the standard privacy-by-default principle: the harm from unwanted exposure (an unintentionally public list surfacing something sensitive) is asymmetric with the cost of opting in to share (flipping one boolean). Defaulting private doesn't remove the social/discovery feature, it just makes sharing an explicit choice instead of an implicit one.
+**Tradeoff acknowledged:** Fewer watchlists will be publicly visible out of the box, which mutes the discovery/virality effect a community film-tracking app is generally trying to encourage. We're trading some default social engagement for user control.
 
 ## Comment 5 – Sort order
 **My position:**
