@@ -19,9 +19,9 @@
 **Tradeoff acknowledged:** Fewer watchlists will be publicly visible out of the box, which mutes the discovery/virality effect a community film-tracking app is generally trying to encourage. We're trading some default social engagement for user control.
 
 ## Comment 5 – Sort order
-**My position:**
-**Reasoning:**
-**Engagement with reviewer's point:**
+**My position:** Conceded — switched `get_watchlist()` from alphabetical-by-title (`Film.title.asc()`) to newest-first (`WatchlistEntry.date_added.desc()`), matching `get_collection()`. Added `test_get_watchlist_returns_newest_first`, mirroring `test_get_collection_returns_newest_first`.
+**Reasoning:** Newest-first surfaces what a user just decided they wanted to watch, which is more actionable than an alphabetical scan as the list grows, and it removes the need for a client to special-case ordering per endpoint.
+**Engagement with reviewer's point:** I initially considered alphabetical order defensible — a watchlist can function like a list you return to and scan repeatedly, where a stable, browsable order helps (e.g., "did I already add this?"). But that benefit is speculative, whereas the inconsistency between two structurally similar endpoints (`/collection/<user_id>` and `/watchlist/<user_id>`) is a concrete API contract problem: an engineer building against both should not have to remember that one sorts by name and the other by time. The reviewer's consistency argument wins here. If per-list browsing order turns out to matter later, the right fix is a `?sort=` query param on both endpoints, not a permanently different default on one.
 
 ## Comment 6 – Rebase
 **What conflicted:**
