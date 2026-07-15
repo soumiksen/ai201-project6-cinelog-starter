@@ -10,8 +10,8 @@
 **How I verified:** Confirmed the module still compiles (`python -m py_compile`) and the full existing test suite still passes (`pytest tests/ -v`, 4/4). A dedicated test for this behavior (`test_add_to_watchlist_duplicate_raises`) is added in Task 3/Comment 3 below.
 
 ## Comment 3 – Missing test
-**What I did:**
-**How I verified:**
+**What I did:** Created `tests/test_watchlist.py`, modeled directly on `tests/test_collection.py` (same `app`/`sample_user`/`sample_film` fixtures, same `with app.app_context():` structure). Added three tests covering `add_to_watchlist()`: happy path (`test_add_to_watchlist_creates_entry`), duplicate handling (`test_add_to_watchlist_duplicate_raises`, matching Comment 2's new `AlreadyInWatchlistError`), and a nonexistent film id (`test_add_to_watchlist_nonexistent_film_raises`) — matching CONTRIBUTING.md's "at least 3 tests for a new service function" requirement.
+**How I verified:** Ran `pytest tests/test_watchlist.py -v` — all 3 new tests passed. Then ran the full suite with `pytest tests/ -v` — all 7 tests (4 existing + 3 new) passed with no regressions.
 
 ## Comment 4 – Default visibility
 **My position:**
